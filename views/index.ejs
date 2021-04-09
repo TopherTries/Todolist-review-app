@@ -5,18 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <h1>A DIRE LIST OF ONEROUS TASKS</h1>
     <ul>
         <% for(let i = 0; i < zebra.length; i++) { %>
-            <li>
+            <li class='todoItem'>
+                <% if(zebra[i].completed === true) {%>
+                <span class='completed'><%= zebra[i].todo %></span>
+                <% }else{ %>
                 <span><%= zebra[i].todo %></span>
+                <% } %>
                 <span class='delete'> Delete </span>
             </li>
         <% } %>   
     </ul>
     
+    <h2>Things left to do: <%= left %></h2>
     <form action="/createTodo" method="POST">
         <input type="text" placeholder="Enter Todo Item" name='todoItem'>
         <input type="submit">

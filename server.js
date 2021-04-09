@@ -2,9 +2,10 @@ const express = require('express')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
 const PORT = 2121
+require('dotenv').config()
 
 let db,
-    dbConnectionStr = 'mongodb+srv://demo:demo@cluster0.k9uwi.mongodb.net/todo?retryWrites=true&w=majority', 
+    dbConnectionStr = process.env.DB_STRING, 
     dbName = 'todo'
 
 MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
@@ -21,13 +22,14 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.get('/', (req, res)=>{
-    db.collection('todos').find().toArray()
-    .then(data => {
-        res.render('index.ejs', {zebra: data})
+app.get('/', async (req, res)=>{
+    const todoItems = await db.collection('todos').find().toArray()
+    const itemsLeft = await db.collection('todos').countDocuments(
+        {completed: false})
+        res.render('index.ejs', {zebra: todoItems, left: itemsLeft})
     })
     
-})
+
 
 app.post('/createTodo', (req, res)=>{
     db.collection('todos').insertOne({todo: req.body.todoItem, completed: 
@@ -38,8 +40,28 @@ app.post('/createTodo', (req, res)=>{
     })
 })
 
-app.listen(PORT, ()=>{
-    console.log(`Server set to ${PORT}`)
+app.put('/markComplete', (req, res)=>{
+    db.collection('todos').updateOne({todo: req.body.rainbowUnicorn}, {
+        $set: {
+            completed: true
+        }
+    })
+    .then(result =>{
+        console.log('Marked Complete')
+        res.json('Marked Complete')
+    })
+})
+
+app.put('/undo', (req, res)=>{
+    db.collection('todos').updateOne({todo: req.body.rainbowUnicorn}, {
+        $set: {
+            completed: false
+        }
+    })
+    .then(result =>{
+        console.log('Marked Complete')
+        res.json('Marked Complete')
+    })
 })
 
 app.delete('/deleteTodo', (req, res) => {
@@ -50,3 +72,8 @@ app.delete('/deleteTodo', (req, res) => {
     })
     .catch(err=>console.log(err))
 })
+
+app.listen(PORT, ()=>{
+    console.log(`Server set to ${PORT}`)
+})
+
