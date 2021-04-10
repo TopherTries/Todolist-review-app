@@ -5,7 +5,7 @@ const PORT = 2121
 require('dotenv').config()
 
 let db,
-    dbConnectionStr = process.env.DB_STRING, 
+    dbConnectionStr = 'mongodb+srv://demo:demo@cluster0.k9uwi.mongodb.net/todo?retryWrites=true&w=majority', 
     dbName = 'todo'
 
 MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
