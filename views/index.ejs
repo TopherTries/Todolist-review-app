@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -16,6 +17,8 @@
         <div class="inputField input">
         <form action="/createTodo" method="POST">
             <input type="text" placeholder="Enter Todo Item" name='todoItem'>
+        </form>
+        <form class="button" action="/createTodo" method="POST">
             <input class="button" type="submit">
         </form>
         </div>
@@ -26,7 +29,7 @@
         the array the class of 'delete'-->
     <ul class="todoList">
         <% for(let i = 0; i < zebra.length; i++) { %>
-            <li class='todoItem'>
+            <li class='todoItem todoList'>
                 <% if(zebra[i].completed === true) {%>
                 <span class='completed'><%= zebra[i].todo %></span>
                 <% }else{ %>
