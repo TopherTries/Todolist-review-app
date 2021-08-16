@@ -10,15 +10,13 @@
 </head>
 <body>
     <div class="wrapper">
-    <h1>Topher, here's some stuff to do!</h1>
+    <h1>To-Do's for Topher</h1>
 
     <!-- This is our app.post linked to our ejs, where the createTodo function is called
         and one todo item is created in our server and saved here to the form. -->
         <div class="inputField input">
         <form action="/createTodo" method="POST">
             <input type="text" placeholder="Enter Todo Item" name='todoItem'>
-        </form>
-        <form class="button" action="/createTodo" method="POST">
             <input class="button" type="submit">
         </form>
         </div>
